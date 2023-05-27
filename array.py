@@ -63,7 +63,35 @@ class Solution1_:
             
 """
 2.
+编写一个高效的算法来搜索 mxn 矩阵 matrix 中的一个目标值 target 。该矩阵具有以下特性：
+
+每行的元素从左到右升序排列。
+每列的元素从上到下升序排列。
+
+来源：力扣（LeetCode）
+链接：https://leetcode.cn/problems/search-a-2d-matrix-ii
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 """
+class Solution:
+    def searchMatrix(self, matrix: list[list[int]], target: int) -> bool:
+        """
+        Idea: z字形扫描
+        定义一个搜索矩阵
+        取原矩阵的左下角作为搜索矩阵的左下角，从矩阵的右上角(0,n-1)开始取作搜索矩阵的右上角，将右上角写作(x,y)
+        if matrix[x,y] > target: 在第y列，搜索矩阵中的所有数值均比当前的右上角大，因此可以忽略，即操作y-=1
+        elif matrix[x,y] < target: 在第x行，搜索矩阵中的所有数值均比当前右上角小，因此可以忽略，及操作x-=1
+        until (x,y) = (n-1,0) return False
+        """
+        m, n = len(matrix), len(matrix[0])
+        x, y = 0, n - 1
+        while x < m and y >= 0:
+            if matrix[x][y] == target:
+                return True
+            if matrix[x][y] > target:
+                y -= 1
+            else:
+                x += 1
+        return False
 
         
 if __name__ == "__main__":
